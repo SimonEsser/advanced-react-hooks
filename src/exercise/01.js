@@ -8,8 +8,12 @@ const countReducer = (state, action) => {
     case 'INCREMENT':
       return {
         ...state,
-        count:
-            state.count + action.step,
+        count: state.count + action.step,
+      }
+    case 'DECREMENT':
+      return {
+        ...state,
+        count: state.count - action.step,
       }
     default:
       throw new Error(`Unsupported Action Type: ${action.type}`)
@@ -29,8 +33,23 @@ function Counter({initialCount = 0, step = 1}) {
   // changes to the next two lines of code! Remember:
   // The 1st argument is called "state" - the current value of count
   // The 2nd argument is called "newState" - the value passed to setCount
-  const increment = () => dispatch({type: 'INCREMENT', step})
-  return <button onClick={increment}>{count}</button>
+  const handleClick = () => dispatch({type: 'INCREMENT', step})
+
+  const handleRightClick = () => {
+    dispatch({type: 'DECREMENT', step})
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      onContextMenu={e => {
+        e.preventDefault()
+        handleRightClick()
+      }}
+    >
+      {count}
+    </button>
+  )
 }
 
 function App() {
